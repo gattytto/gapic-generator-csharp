@@ -54,7 +54,7 @@ def _dotnet_restore_impl(ctx):
             "--packages=restore/packages",
             "--verbosity=quiet",
         ]
-    for _ in range(3):
+    for _ in range(100):
         # This is flakey for unknown reason(s).
         # So try it up to three times
         res = ctx.execute(

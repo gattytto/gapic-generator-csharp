@@ -47,7 +47,7 @@ def _dotnet_restore_impl(ctx):
     ctx.execute(["mkdir", "local_tmp"])
     ctx.execute(["cp", "-rHs", "--preserve=links", str(ws_path), "restore"])
     ctx.execute(["mv", "restore/" + ws_path.basename, "restore/src"])
-    ctx.execute(["pwd"])
+    print(dir(ctx))
     command = [
             str(ctx.path(ctx.attr.csharp_compiler)),
             "restore",
@@ -55,7 +55,7 @@ def _dotnet_restore_impl(ctx):
             "--packages=restore/packages",
             "--verbosity=quiet",
         ]
-    for _ in range(100):
+    for _ in range(3):
         # This is flakey for unknown reason(s).
         # So try it up to three times
         res = ctx.execute(

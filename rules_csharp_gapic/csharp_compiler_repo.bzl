@@ -58,7 +58,7 @@ def _dotnet_restore_impl(ctx):
         # This is flakey for unknown reason(s).
         # So try it up to three times
         res = ctx.execute(
-            "DOTNET_CLI_HOME=" str(ctx.path('.')) + "/local_tmp/ " + command,
+            "DOTNET_CLI_HOME=" + str(ctx.path('.')) + "/local_tmp/ " + command,
             environment = {
                 "DOTNET_CLI_HOME": str(ctx.path('.')) + "/local_tmp/",
                 "DOTNET_SKIP_FIRST_TIME_EXPERIENCE": "1",

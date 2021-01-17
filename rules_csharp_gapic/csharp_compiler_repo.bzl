@@ -48,6 +48,7 @@ def _dotnet_restore_impl(ctx):
     ctx.execute(["cp", "-rHs", "--preserve=links", str(ws_path), "restore"])
     ctx.execute(["mv", "restore/" + ws_path.basename, "restore/src"])
     print(str(ctx.path('.')) + "/local_tmp/")
+    print(str(csproj_relative))
     command = [
             str(ctx.path(ctx.attr.csharp_compiler)),
             "restore",

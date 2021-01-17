@@ -48,6 +48,10 @@ def _dotnet_restore_impl(ctx):
     ctx.execute(["cp", "-rHs", "--preserve=links", str(ws_path), "restore"])
     ctx.execute(["mv", "restore/" + ws_path.basename, "restore/src"])
     command = [
+            "DOTNET_CLI_HOME=" + str(ctx.path('.')) + "/local_tmp/ ",
+            "DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1 ",
+            "DOTNET_CLI_TELEMETRY_OPTOUT=1 ",
+            "DOTNET_NOLOGO=1 ",
             str(ctx.path(ctx.attr.csharp_compiler)),
             "restore",
             "restore/src" + csproj_relative,
@@ -58,13 +62,7 @@ def _dotnet_restore_impl(ctx):
         # This is flakey for unknown reason(s).
         # So try it up to three times
         res = ctx.execute(
-            "DOTNET_CLI_HOME=" + str(ctx.path('.')) + "/local_tmp/ " + command,
-            environment = {
-                "DOTNET_CLI_HOME": str(ctx.path('.')) + "/local_tmp/",
-                "DOTNET_SKIP_FIRST_TIME_EXPERIENCE": "1",
-                "DOTNET_CLI_TELEMETRY_OPTOUT": "1",
-                "DOTNET_NOLOGO": "1",
-            },
+            command
         )
         if res.return_code == 0:
             break

@@ -20,9 +20,8 @@ def gapic_generator_csharp_repositories():
     maybe(
         http_archive,
         name = "com_google_api_codegen",
-        strip_prefix = "gapic-generator-2.2.0",
-        urls = ["https://github.com/googleapis/gapic-generator/archive/v2.2.0.zip"],
-        sha256 = "0633651c7e7cdbea16231025de8a8e55773c224ad840507a8f3b38f96461ad30"
+        strip_prefix = "gapic-generator-f7f4f68fc7a7c40d03db525d2833ed3cef8bc281",
+        urls = ["https://github.com/googleapis/gapic-generator/archive/f7f4f68fc7a7c40d03db525d2833ed3cef8bc281.zip"],
     )
     maybe(
         csharp_compiler,

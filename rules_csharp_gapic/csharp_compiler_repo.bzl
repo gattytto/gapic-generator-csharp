@@ -54,7 +54,7 @@ def _dotnet_restore_impl(ctx):
             "restore",
             str(ctx.path('.'))+"/restore/src" + csproj_relative,
             "--disable-parallel",
-            "--packages=restore/packages",
+            "--packages=" + str(ctx.path('.')) + "/restore/packages",
             "--verbosity=5",
         ]
     for _ in range(3):

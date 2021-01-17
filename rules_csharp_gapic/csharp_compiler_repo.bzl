@@ -47,10 +47,13 @@ def _dotnet_restore_impl(ctx):
     ctx.execute(["mkdir", "local_tmp"])
     ctx.execute(["cp", "-rHs", "--preserve=links", str(ws_path), "restore"])
     ctx.execute(["mv", "restore/" + ws_path.basename, "restore/src"])
-    
+    ctx.execute(["export", "DOTNET_CLI_HOME=" + str(ctx.path('.')) + "/local_tmp/"])
+    ctx.execute(["export", "DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1"])
+    ctx.execute(["export", "DOTNET_CLI_TELEMETRY_OPTOUT=1"])
+    ctx.execute(["export", "DOTNET_NOLOGO=1"])
     
     command = [
-            "DOTNET_CLI_HOME=" + str(ctx.path('.')) + "/local_tmp/ DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1 DOTNET_CLI_TELEMETRY_OPTOUT=1 DOTNET_NOLOGO=1 " +str(ctx.path(ctx.attr.csharp_compiler)),
+            str(ctx.path(ctx.attr.csharp_compiler)),
             "restore",
             "restore/src" + csproj_relative,
             "--packages=restore/packages",
@@ -59,15 +62,7 @@ def _dotnet_restore_impl(ctx):
     for _ in range(3):
         # This is flakey for unknown reason(s).
         # So try it up to three times
-        res = ctx.execute(
-            command,
-            environment = {	
-                "DOTNET_CLI_HOME": str(ctx.path('.')) + "/local_tmp/",	
-                "DOTNET_SKIP_FIRST_TIME_EXPERIENCE": "1",	
-                "DOTNET_CLI_TELEMETRY_OPTOUT": "1",	
-                "DOTNET_NOLOGO": "1",	
-            },
-        )
+        res = ctx.execute(command)
         if res.return_code == 0:
             break
     if res.return_code != 0:

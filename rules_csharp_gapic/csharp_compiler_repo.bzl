@@ -28,7 +28,7 @@ csharp_compiler = repository_rule(
 )
 
 def _find_ws_root(path):
-    for _ in range(10):
+    for _ in range(3):
         if path.get_child('WORKSPACE').exists or path.get_child('WORKSPACE.bazel').exists:
             return path
         path = path.dirname
@@ -55,7 +55,7 @@ def _dotnet_restore_impl(ctx):
             str(ctx.path('.'))+"/restore/src" + csproj_relative,
             "--disable-parallel",
             "--packages=" + str(ctx.path('.')) + "/restore/packages",
-            "--verbosity=5",
+            "--verbosity=d",
         ]
     for _ in range(3):
         # This is flakey for unknown reason(s).

@@ -46,7 +46,7 @@ cp -r src/* {out}/
         command = command,
     )
     run_sh = """#!/bin/bash
-DOTNET_CLI_HOME="$(pwd)/local_tmp" \
+export DOTNET_CLI_HOME="$(pwd)/local_tmp" \
 DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1 \
 DOTNET_CLI_TELEMETRY_OPTOUT=1 \
 DOTNET_NOLOGO=1 \

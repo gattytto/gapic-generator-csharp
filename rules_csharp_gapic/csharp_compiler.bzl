@@ -21,7 +21,7 @@ def _csharp_binary_impl(ctx):
 mkdir local_tmp
 ln -s {restore}/packages .
 cp -r {restore}/src .
-DOTNET_CLI_HOME="$(pwd)/local_tmp" \
+export DOTNET_CLI_HOME="$(pwd)/local_tmp" \
 DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1 \
 DOTNET_CLI_TELEMETRY_OPTOUT=1 \
 DOTNET_NOLOGO=1 \

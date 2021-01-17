@@ -47,8 +47,6 @@ def _dotnet_restore_impl(ctx):
     ctx.execute(["mkdir", "local_tmp"])
     ctx.execute(["cp", "-rHs", "--preserve=links", str(ws_path), "restore"])
     ctx.execute(["mv", "restore/" + ws_path.basename, "restore/src"])
-    print(str(ctx.path('.')) + "/local_tmp/")
-    print(str(csproj_relative))
     command = [
             str(ctx.path(ctx.attr.csharp_compiler)),
             "restore",
@@ -60,7 +58,7 @@ def _dotnet_restore_impl(ctx):
         # This is flakey for unknown reason(s).
         # So try it up to three times
         res = ctx.execute(
-            command,
+            "DOTNET_CLI_HOME=" str(ctx.path('.')) + "/local_tmp/ " + command,
             environment = {
                 "DOTNET_CLI_HOME": str(ctx.path('.')) + "/local_tmp/",
                 "DOTNET_SKIP_FIRST_TIME_EXPERIENCE": "1",

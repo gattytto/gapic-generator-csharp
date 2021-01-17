@@ -47,13 +47,13 @@ def _dotnet_restore_impl(ctx):
     ctx.execute(["mkdir", "local_tmp"])
     ctx.execute(["cp", "-rHs", "--preserve=links", str(ws_path), "restore"])
     ctx.execute(["mv", "restore/" + ws_path.basename, "restore/src"])
-    print(dir(ctx))
+    print(str(ctx.path('.')) + "/local_tmp/")
     command = [
             str(ctx.path(ctx.attr.csharp_compiler)),
             "restore",
             "restore/src" + csproj_relative,
             "--packages=restore/packages",
-            "--verbosity=quiet",
+            "--verbosity=5",
         ]
     for _ in range(3):
         # This is flakey for unknown reason(s).
@@ -76,6 +76,7 @@ def _dotnet_restore_impl(ctx):
             stderr = res.stderr,
             stdout = res.stdout,
         ))
+        print(dir(res))
     ctx.file(
         "BUILD",
         'exports_files(["restore"])'
